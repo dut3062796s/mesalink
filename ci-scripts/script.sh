@@ -20,4 +20,4 @@ fi
 
 make
 make DESTDIR=$TRAVIS_BUILD_DIR/inst install
-du -sh $TRAVIS_BUILD_DIR/inst/usr/local/lib/libmesalink.*
+du -sh $TRAVIS_BUILD_DIR/inst/usr/local/lib/*
