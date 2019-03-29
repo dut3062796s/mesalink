@@ -15,7 +15,7 @@ then
 else
     rustup target add $RUST_TARGET
     #./autogen.sh --host=$TARGET --enable-rusthost=$RUST_TARGET
-    mkdir build && cd build && cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/${TARGET}.cmake.toolchain ..
+    mkdir build && cd build && cmake -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/cmake/${TARGET}.toolchain.cmake ..
 fi
 
 make
