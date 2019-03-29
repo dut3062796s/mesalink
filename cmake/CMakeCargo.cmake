@@ -95,8 +95,6 @@ function(cargo_build)
             -C link-arg=-Wl,-install_name -C link-arg=-Wl,${SONAME} \
             -C link-arg=-Wl,-compatibility_version -C link-arg=-Wl,${PROJECT_VERSION_MAJOR} \
             -C link-arg=-Wl,-current_version -C link-arg=-Wl,${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}" VERBATIM)
-    else()
-        set(CARGO_LINKER_ARGS "-C linker=${CMAKE_C_COMPILER}" VERBATIM)
     endif()
 
     set(CARGO_ENV_COMMAND ${CMAKE_COMMAND} -E env "CARGO_TARGET_DIR=${CARGO_TARGET_DIR}" "RUSTFLAGS=${CARGO_LINKER_ARGS}")

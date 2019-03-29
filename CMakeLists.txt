@@ -40,6 +40,8 @@ if(UNIX)
     set(HAVE_UNIX ON)
 endif()
 
+option(HAVE_EXAMPLES "Enable examples (default: disabled)" OFF)
+
 option(HAVE_CLIENT "Enable client APIs (default: enabled)" ON)
 if(HAVE_CLIENT)
     string(APPEND CONFIG_FEATURES client_apis,)
@@ -102,7 +104,7 @@ configure_file(${PROJECT_SOURCE_DIR}/mesalink/options.h.cmake.in ${PROJECT_SOURC
 # Build MesaLink and its examples
 cargo_build(NAME mesalink CROSS_RUST_TARGET ${RUST_TARGET} FEATURES ${CONFIG_FEATURES})
 
-if(UNIX)
+if(UNIX AND HAVE_EXAMPLES)
     add_executable(client examples/client/client.c)
     target_include_directories(client PUBLIC ${CMAKE_SOURCE_DIR})
     target_link_libraries(client mesalink)
@@ -116,7 +118,7 @@ endif()
 
 include(GNUInstallDirs)
 get_property(install_lib_files GLOBAL PROPERTY install_lib_files_property)
-install(FILES ${install_lib_files} 
+install(FILES ${install_lib_files}
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
     COMPONENT libraries
@@ -137,7 +139,7 @@ if(UNIX)
     install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${LIB} ${SYMLINK_SHORT})")
 endif()
 
-install(DIRECTORY mesalink 
+install(DIRECTORY mesalink
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     COMPONENT headers
 )
@@ -154,7 +156,7 @@ set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "Libraries")
 set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C Headers")
 set(CPACK_COMPONENT_LIBRARIES_DESCRIPTION
   "Shared and static libraries of MesaLink")
-set(CPACK_COMPONENT_HEADERS_DESCRIPTION 
+set(CPACK_COMPONENT_HEADERS_DESCRIPTION
   "C/C++ header files. OpenSSL compatible.")
 set(CPACK_COMPONENT_HEADERS_DEPENDS libraries)
 set(CPACK_COMPONENT_LIBRARIES_GROUP "Development")
