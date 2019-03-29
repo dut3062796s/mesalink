@@ -8,6 +8,9 @@ then
 elif [[ "$TARGET" == "aarch64-linux-gnu" ]]
 then
     sudo apt-get install -qq gcc-aarch64-linux-gnu libc6-arm64-cross libc6-dev-arm64-cross
+elif [[ "$TARGET" == "*windows-gnu*" ]]
+then
+    sudo apt-get install -qq mingw-w64
 fi
 
 if [[ "$TARGET" = *"android"* ]]

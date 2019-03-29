@@ -19,13 +19,5 @@ else
 fi
 
 make
-make DESTDIR=$TRAVIS_BUILD_DIR/inst install-strip
+make DESTDIR=$TRAVIS_BUILD_DIR/inst install
 du -sh $TRAVIS_BUILD_DIR/inst/usr/local/lib/libmesalink.*
-
-# Only stable x86_64_macos and x86_64_linux builds run tests
-if [[ x"$TARGET" == "x" ]]
-then
-    ./examples/client/client google.com
-    RUST_BACKTRACE=1 cargo test
-    ( cd bogo && ./runme )
-fi

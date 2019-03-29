@@ -13,6 +13,8 @@ env:
   NDK_API=21 NDK_ARCH=arm64
 - ARCH=x86_64_android TARGET=x86_64-linux-android RUST_TARGET=x86_64-linux-android
   NDK_API=21 NDK_ARCH=x86_64
+- ARCH=x86_64_windows TARGET=x86_64-windows-gnu RUST_TARGET=x86_64-pc-windows-gnu
+- ARCH=i686_windows TARGET=i686-windows-gnu RUST_TARGET=x86_64-pc-windows-gnu
 matrix:
   include:
   - os: osx
