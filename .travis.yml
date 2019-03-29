@@ -19,15 +19,6 @@ matrix:
   - os: osx
     rust: stable
     env: ARCH=x86_64_macos
-  - os: windows
-    rust: stable
-    env: ARCH=x86_64_windows_msvc
-    before_install:
-    install:
-    - choco install nsis
-    before_script:
-    before_deploy:
-    script: "./travis/windows_installer.sh"
   - name: cargo test
     rust: stable
     before_install:
