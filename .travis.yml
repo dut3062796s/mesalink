@@ -13,24 +13,36 @@ env:
   NDK_API=21 NDK_ARCH=arm64
 - ARCH=x86_64_android TARGET=x86_64-linux-android RUST_TARGET=x86_64-linux-android
   NDK_API=21 NDK_ARCH=x86_64
-- ARCH=x86_64_windows TARGET=x86_64-windows-gnu RUST_TARGET=x86_64-pc-windows-gnu
-- ARCH=i686_windows TARGET=i686-windows-gnu RUST_TARGET=x86_64-pc-windows-gnu
+- ARCH=x86_64_windows_mingw TARGET=x86_64-windows-gnu RUST_TARGET=x86_64-pc-windows-gnu
+- ARCH=i686_windows_mingw TARGET=i686-windows-gnu RUST_TARGET=i686-pc-windows-gnu
 matrix:
   include:
+  - os: osx
+    rust: stable
+    env: ARCH=x86_64_macos
+  - os: windows
+    rust: stable
+    env: ARCH=x86_64_windows_msvc
+    before_install:
+    install:
+    - choco install nsis
+    before_script:
+    before_deploy:
+    script: "./ci-scripts/windows_installer.sh"
   - name: cargo test
     rust: stable
+    before_install:
+    install:
+    before_script:
     script:
     - RUST_BACKTRACE=1 cargo test
   - name: bogo test
     rust: stable
+    before_install:
+    install:
+    before_script:
     script:
     - cd bogo && ./runme
-  - os: osx
-    rust: stable
-    env: ARCH=x86_64_macos
-  - os: osx
-    rust: nightly
-    env: ARCH=x86_64_macos
   - name: rust-san
     rust: nightly
     env: SAN=yes
@@ -67,10 +79,10 @@ matrix:
 before_install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
 install:
-- "./ci-scripts/install.sh"
+- "./ci-scripts/toolchain_setup.sh"
 - if [[ "$TARGET" = *"android"* ]]; then export PATH="$PATH:$PWD/cross/bin"; fi
-script: "./ci-scripts/script.sh"
-before_deploy: "./ci-scripts/before_deploy.sh"
+script: "./ci-scripts/build.sh"
+before_deploy: "./ci-scripts/deploy_setup.sh"
 notifications:
   email:
     on_success: never

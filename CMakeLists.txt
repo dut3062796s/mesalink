@@ -16,6 +16,7 @@ cmake_minimum_required(VERSION 3.0)
 
 project(MesaLink C CXX)
 set(DEFAULT_BUILD_TYPE "Release")
+set(MESALINK_RELEASE_VERSION 1.0.0)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 enable_language(Rust)
@@ -29,7 +30,6 @@ project(MesaLink VERSION 12.0.0)
 set(LIB_NAME mesalink)
 
 # Config options
-set(MESALINK_VERSION ${PROJECT_VERSION})
 configure_file(${PROJECT_SOURCE_DIR}/mesalink/version.h.cmake.in ${PROJECT_SOURCE_DIR}/mesalink/version.h @ONLY)
 
 if(WIN32)
@@ -148,7 +148,7 @@ install(DIRECTORY mesalink
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_VENDOR "Github")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "MesaLink - A memory-safe and OpenSSL-compatible TLS Library")
-set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_PACKAGE_VERSION ${MESALINK_RELEASE_VERSION})
 set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE)
 
 set(CPACK_COMPONENTS_ALL libraries headers)
