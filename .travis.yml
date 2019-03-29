@@ -27,7 +27,7 @@ matrix:
     - choco install nsis
     before_script:
     before_deploy:
-    script: "./ci-scripts/windows_installer.sh"
+    script: "./travis/windows_installer.sh"
   - name: cargo test
     rust: stable
     before_install:
@@ -42,15 +42,6 @@ matrix:
     before_script:
     script:
     - cd bogo && ./runme
-  - name: rust-san
-    rust: nightly
-    env: SAN=yes
-    before_install:
-    install:
-    before_script:
-    script:
-    - RUSTFLAGS="-Z sanitizer=address" cargo test --target x86_64-unknown-linux-gnu
-    - RUSTFLAGS="-Z sanitizer=leak" cargo test --target x86_64-unknown-linux-gnu
   - name: cargo-clippy
     rust: stable
     env: CLIPPY=yes
@@ -78,10 +69,10 @@ matrix:
 before_install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
 install:
-- "./ci-scripts/toolchain_setup.sh"
+- "./travis/toolchain_setup.sh"
 - if [[ "$TARGET" = *"android"* ]]; then export PATH="$PATH:$PWD/cross/bin"; fi
-script: "./ci-scripts/build.sh"
-before_deploy: "./ci-scripts/deploy_setup.sh"
+script: "./travis/build.sh"
+before_deploy: "./travis/deploy_setup.sh"
 notifications:
   email:
     on_success: never
